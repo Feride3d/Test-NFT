@@ -17,33 +17,35 @@ contract TestNFT is ERC721, Ownable {
     uint256 public maxAmountTokens = 1000;
     uint public constant maxTokens = 20;
     bool public saleIsActive = false;
-    
+    function totalSupply() public view;
+        returns(uint256);
 
     constructor() ERC721("Test NFT", "TNFT") {
     }
-    
+
     function mintTokens (uint _numberOfTokens) public payable {
+        uint256 _lastTokenId = totalSupply();
         require(saleIsActive, "TestNFT: Sale is active to mint TNFT");
         require(_numberOfTokens <= maxTokens, "TestNFT: Can mint only 20 tokens at the same time");
         require(totalSupply().add(_numberOfTokens) <= maxAmountTokens, "TestNFT: Max supply of tokens");
-        uint256 _lastTokenId = totalSupply();
+        
 
         for(uint i = 0; i < _numberOfTokens; i++) {
             _lastTokenId ++;
-            _mint(_to, _lastTokenId);
+            _mint(msg.sender, _lastTokenId);
             
         }
     }
     
     function setProvenance(string memory _prov) public onlyOwner {
         provenance = _prov;
-        }
+    }
     
     function setBaseURI(string memory _baseURI) public onlyOwner {
         setBaseURI(_baseURI);
     }
     
-    function changeTokensPrice(uint256 memory _newTokensPrice) public onlyOwner { 
+    function changeTokensPrice(uint256 _newTokensPrice) public onlyOwner { 
         TokensPrice = _newTokensPrice;    
     }
 }
