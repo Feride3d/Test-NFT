@@ -31,18 +31,19 @@ contract TestNFT is ERC721, Ownable {
         for(uint i = 0; i < _numberOfTokens; i++) {
             _lastTokenId ++;
             _mint(_to, _lastTokenId);
-            }
+            
         }
     }
     
     function setProvenance(string memory _prov) public onlyOwner {
-        provenance = prov;
+        provenance = _prov;
         }
     
     function setBaseURI(string memory _baseURI) public onlyOwner {
-        _setBaseURI(baseURI);
-        }
+        setBaseURI(_baseURI);
+    }
     
     function changeTokensPrice(uint256 memory _newTokensPrice) public onlyOwner { 
-        TokensPrice = newTokensPrice;    
-        }
+        TokensPrice = _newTokensPrice;    
+    }
+}
